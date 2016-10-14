@@ -16,7 +16,7 @@ struct Pixel_t {
 typedef struct Pixel_t Pixel;
 
 struct Image_t {
-	Pixel* im;
+	Pixel* pixels;
 	int rows;
 	int cols;
 };

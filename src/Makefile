@@ -38,10 +38,10 @@ $(OBJ_DIR)/a6.o: a6.c
 $(OBJ_DIR)/menuUtil.o: menuUtil.c $(INC_DIRS)/menuUtil.h $(INC_DIRS)/imageManip.h $(INC_DIRS)/ppmIO.h
 	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c menuUtil.c -o $(OBJ_DIR)/menuUtil.o
 
-$(OBJ_DIR)/ppmIO.o: ppmIO.c $(INC_DIRS)/ppmIO.h
+$(OBJ_DIR)/ppmIO.o: ppmIO.c $(INC_DIRS)/ppmIO.h $(INC_DIRS)/pixel_image.h
 	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c ppmIO.c -o $(OBJ_DIR)/ppmIO.o
 
-$(OBJ_DIR)/imageManip.o: imageManip.c $(INC_DIRS)/imageManip.h
+$(OBJ_DIR)/imageManip.o: imageManip.c $(INC_DIRS)/imageManip.h $(INC_DIRS)/pixel_image.h
 	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c imageManip.c -o $(OBJ_DIR)/imageManip.o
 
 $(OBJ_DIR):
