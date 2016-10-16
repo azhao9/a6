@@ -9,10 +9,10 @@
 
 #include "menuUtil.h"
 #include "ppmIO.h"
+#include "imageManip.h"
 
 int main () {
 	display();
-	readOption();
 
 	FILE *in = fopen("../data/nika.ppm", "r");
 
@@ -20,16 +20,12 @@ int main () {
 	img = readImage(in);
 	
 	FILE *out = fopen("test.ppm", "wb");
-	writeImage(out, img);
 	
+	Image* new = crop(img);
+	writeImage(out, new);
 	// close files
 	fclose(in);
 	fclose(out);
-
-	// free dynamically allocted memory
-	free((*img).pixels);
-	free(img);
-	img = NULL;
 
 	return 0;
 	
