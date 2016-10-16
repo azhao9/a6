@@ -13,7 +13,7 @@
 #include <stdlib.h>
 
 // reads an image from a file into an image struct
-Image* read(FILE *fp) {
+Image* readImage(FILE *fp) {
 
 	char header[10];
 	char rows[10];
@@ -24,6 +24,7 @@ Image* read(FILE *fp) {
 
 	if (strcmp("P6", header)) {
 		// not a PPM file
+		printf("not a ppm file");
 		return 0;
 	}
 
@@ -39,6 +40,7 @@ Image* read(FILE *fp) {
 
 	if (colors_2 != 255) {
 		// not regular image
+		printf("not a regular image");
 		return 0;
 	}
 
@@ -48,20 +50,20 @@ Image* read(FILE *fp) {
 
 	if (reads != r * c) {
 		// error writing file
+		printf("not same number of elements");
 		return 0;
 	}
 
-	Image im;
-	im.pixels = pix;
-	im.rows = r;
-	im.cols = c;
-	Image *ptr = &im;
-	return ptr;
+	Image *im = malloc(sizeof(Image));
+	(*im).pixels = pix;
+	(*im).rows = r;
+	(*im).cols = c;
+	return im;
 
 }
 
 // writes an image to a file
-void write(FILE *out, Image *im) {
+void writeImage(FILE *out, Image *im) {
 	Image pic = *im;
 	Pixel *pix = pic.pixels;
 	int r = pic.rows;

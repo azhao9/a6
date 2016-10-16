@@ -14,21 +14,18 @@ int main () {
 	display();
 	readOption();
 
-	FILE *fp = fopen("../data/nika.ppm", "r");
+	FILE *in = fopen("../data/nika.ppm", "r");
 
-	Image *im = read(fp);
-	Image pic = *im;
+	Image *img;
+	img = readImage(in);
 	
-	fclose(fp);
-
 	FILE *out = fopen("test.ppm", "wb");
-
-	write(out, im);
-
-	fclose(out);	
-
-	printf("%d %d\n", pic.rows, pic.cols);
+	writeImage(out, img);
 	
+	// close files
+	fclose(in);
+	fclose(out);
+
 	return 0;
 	
 }
