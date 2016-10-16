@@ -2,7 +2,7 @@
  *
  * Aleck Zhao azhao9
  * Noah Halpern nhalper1
- * 14 October, 2016
+ * 16 October, 2016
  *
  * Functions for reading and writing images.
  */
@@ -22,25 +22,50 @@ Image* readImage(FILE *fp) {
 
 	fscanf(fp,"%s", header);
 
+	// read header, skip lines that begin with #
+	while (header[0] == '#') {
+		while (fgetc(fp) != '\n');
+		fscanf(fp, "%s", header);
+	}
+
 	if (strcmp("P6", header)) {
 		// not a PPM file
 		printf("not a ppm file");
 		return 0;
 	}
 
+	// reads number of rows
 	fscanf(fp, "%s", rows);
+	while (rows[0] == '#') {
+		while (fgetc(fp) != '\n');
+		fscanf(fp, "%s", rows);
+	}
+
+	// reads number of cols
 	fscanf(fp, "%s", cols);
+	while (cols[0] == '#') {
+		while (fgetc(fp) != '\n');
+		fscanf(fp, "%s", cols);
+	}
+
+	// reads color value
 	fscanf(fp, "%s", colors);
+	while (colors[0] == '#') {
+		while (fgetc(fp) != '\n');
+		fscanf(fp, "%s", colors);
+	}
+
 	while (fgetc(fp) != '\n');
 
 
+	// convert read values into ints
 	int r = atoi(rows);
 	int c = atoi(cols);
 	int colors_2 = atoi(colors);
 
 	if (colors_2 != 255) {
 		// not regular image
-		printf("not a regular image");
+		fprintf(stderr, "not a regular image");
 		return 0;
 	}
 
@@ -50,7 +75,7 @@ Image* readImage(FILE *fp) {
 
 	if (reads != r * c) {
 		// error writing file
-		printf("not same number of elements");
+		fprintf(stderr, "not same number of elements");
 		return 0;
 	}
 
@@ -58,6 +83,7 @@ Image* readImage(FILE *fp) {
 	(*im).pixels = pix;
 	(*im).rows = r;
 	(*im).cols = c;
+
 	return im;
 
 }
@@ -68,8 +94,6 @@ void writeImage(FILE *out, Image *im) {
 	Pixel *pix = pic.pixels;
 	int r = pic.rows;
 	int c = pic.cols;
-
-	printf("%d %d\n", r, c);
 
 	fprintf(out, "P6\n");
 	fprintf(out, "%d %d ", r, c);

@@ -26,6 +26,11 @@ int main () {
 	fclose(in);
 	fclose(out);
 
+	// free dynamically allocted memory
+	free((*img).pixels);
+	free(img);
+	img = NULL;
+
 	return 0;
 	
 }
