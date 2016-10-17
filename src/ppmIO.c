@@ -95,6 +95,7 @@ void writeImage(FILE *out, Image *im) {
 	int r = pic.rows;
 	int c = pic.cols;
 
+	// header for ppm file
 	fprintf(out, "P6\n");
 	fprintf(out, "%d %d ", c, r);
 	fprintf(out, "255\n");

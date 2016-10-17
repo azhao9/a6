@@ -19,6 +19,7 @@ Image* crop(Image *old) {
 	char c[30];
 	char d[30];
 
+	// reads coordinates
 	scanf("%s %s %s %s", a, b, c, d);
 
 	int x1 = atoi(a);
