@@ -45,12 +45,14 @@ Image* crop(Image *old) {
 	if (x1 > oldCols || x2 > oldCols || y1 > oldRows || y2 > oldRows) {
 		// can't be larger than size of picture
 		fprintf(stderr, "Can't be outside the picture\n");
+		return NULL;
 	}
 
 	if ((strcmp(a, "0") && !x1) || (strcmp(b, "0") && !y1) || 
 			(strcmp(c, "0") && !x2) || (strcmp(d, "0") && !y2)) {
 	       // invalid input
 	       fprintf(stderr, "Invalid input\n");
+	       return NULL;
 	}	       
 
 	int newRows = (y2 - y1);
@@ -61,6 +63,7 @@ Image* crop(Image *old) {
 
 	int newIndex = 0;
 
+	printf("Cropping region from (%d, %d) to (%d, %d)...\n", x1, y1, x2, y2);
 	for (int r = y1; r < y2; r++) {
 		for (int c = x1; c < x2; c++) {
 			int oldIndex = r * oldCols + c;
@@ -91,6 +94,7 @@ void invert(Image *old) {
 	int rows = (*old).rows;
 	int cols = (*old).cols;
 
+	printf("Inverting intensity...\n");
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < cols; c++) {
 			int index = r * cols + c;
@@ -110,6 +114,7 @@ void swap(Image *old) {
 	int rows = (*old).rows;
 	int cols = (*old).cols;
 
+	printf("Swapping color channels...\n");
 	for (int r = 0; r < rows; r++) {
 		for (int c = 0; c < cols; c++) {
 			int index = r * cols + c;
@@ -127,7 +132,7 @@ void swap(Image *old) {
 void grayscale(Image *old) {
 	old = NULL;
 	if (old == NULL) {
-		printf("Feature not yet implemented");
+		printf("Feature not yet implemented\n");
 	}
 }
 
@@ -135,7 +140,7 @@ void grayscale(Image *old) {
 void brightness(Image *old) {
 	old = NULL;
 	if (old == NULL) {
-		printf("Feature not yet implemented");
+		printf("Feature not yet implemented\n");
 	}
 }
 
@@ -143,7 +148,7 @@ void brightness(Image *old) {
 void contrast(Image *old) {
 	old = NULL;
 	if (old == NULL) {
-		printf("Feature not yet implemented");
+		printf("Feature not yet implemented\n");
 	}
 }
 
@@ -151,7 +156,7 @@ void contrast(Image *old) {
 void blur(Image *old) {
 	old = NULL;
 	if (old == NULL) {
-		printf("Feature not yet implemented");
+		printf("Feature not yet implemented\n");
 	}
 }
 
@@ -159,6 +164,6 @@ void blur(Image *old) {
 void sharpen(Image *old) {
 	old = NULL;
 	if (old == NULL) {
-		printf("Feature not yet implemented");
+		printf("Feature not yet implemented\n");
 	}
 }

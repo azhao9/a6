@@ -27,8 +27,9 @@ void display() {
 
 // reads first argument of user input and determines what to do
 int readOption() {
+	printf("Enter choice: ");
 
-	char input[3];
+	char input[30];
 
 	// reads first arg
 	scanf("%s", input);

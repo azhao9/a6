@@ -36,14 +36,14 @@ Image* readImage(FILE *fp) {
 
 	// reads number of cols 
 	fscanf(fp, "%s", cols);
-	while (rows[0] == '#') {
+	while (cols[0] == '#') {
 		while (fgetc(fp) != '\n');
 		fscanf(fp, "%s", cols);
 	}
 
 	// reads number of rows
 	fscanf(fp, "%s", rows);
-	while (cols[0] == '#') {
+	while (rows[0] == '#') {
 		while (fgetc(fp) != '\n');
 		fscanf(fp, "%s", rows);
 	}
