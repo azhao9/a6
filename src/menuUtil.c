@@ -2,7 +2,7 @@
  *
  * Aleck Zhao azhao9
  * Noah Halpern nhalper1
- * 14 October, 2016
+ * 16 October, 2016
  *
  * Program to display an interactive menu and read user choice.
  */
