@@ -124,30 +124,41 @@ void swap(Image *old) {
 }
 
 // converts an image to grayscale
-Image* grayscale(Image *old) {
+void grayscale(Image *old) {
 	old = NULL;
-	return NULL;
+	if (old == NULL) {
+		printf("Feature not yet implemented");
+	}
 }
 
 // changes the brightness of an image
-Image* brightness(Image *old) {
+void brightness(Image *old) {
 	old = NULL;
-	return NULL;
+	if (old == NULL) {
+		printf("Feature not yet implemented");
+	}
 }
 
 // changes the contrast of an image
-Image* contrast(Image *old) {
+void contrast(Image *old) {
 	old = NULL;
-	return NULL;
+	if (old == NULL) {
+		printf("Feature not yet implemented");
+	}
 }
 
 // blurs an image
-Image* blur(Image *old) {
+void blur(Image *old) {
 	old = NULL;
-	return NULL;
+	if (old == NULL) {
+		printf("Feature not yet implemented");
+	}
 }
 
 // sharpens an image
-Image* sharpen(Image *old) {
-	return NULL;
+void sharpen(Image *old) {
+	old = NULL;
+	if (old == NULL) {
+		printf("Feature not yet implemented");
+	}
 }
