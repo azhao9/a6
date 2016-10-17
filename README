@@ -5,4 +5,22 @@ Assignment 6
 Aleck Zhao azhao9
 Noah Halpern nhalper1
 
+Program displays an interactive menu for the user, allows user to read, write, and manipulate images. Our implementation does not handle comments in the ppm file very elegantly, and might not be totally correct for all cases.
 
+a6.c: Runs the program. Keeps the current image stored.
+
+menuUtil.c: Displays the menu and reads the user's choice for which operation to perform. Does not accept arguments past the first 1-2 chars of user input.
+
+ppmIO.c: Provides functions for reading and writing images to disk. 
+
+imageManip.c: Provides functions for manipulating images. Crop, invert, swap color channels, grayscale, blur, sharpen, change brightness, and change contrast.
+
+pixel_image.h: Defines the Pixel and Image structs.
+
+menuUtil.h: Provides headers for running the menu.
+
+ppmIO.h: Provides headers for reading and writing images.
+
+imageManip.h: Provides headers for manipulating images.
+
+The project took about 10 hours. We disliked handling bad user input, especially with comments in the ppm file. We had some issues with values of variables seemingly magically changing when they shouldn't. We liked how applicable pointers were to our solution, and the usefulness of the program. Everything given on the assignment page was very helpful.
