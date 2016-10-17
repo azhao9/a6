@@ -78,6 +78,7 @@ int main () {
 			// swap
 			if (img == NULL) {
 				printf("Nothing read yet...\n");
+			} else {
 				swap(img);
 			}
 		} else if (option == 6) {
