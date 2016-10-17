@@ -103,8 +103,11 @@ int main () {
 	}
 
 	printf("Goodbye!\n");
-	free((*img).pixels);
-	free(img);
+	if (img) {
+		// if not null pointer
+		free((*img).pixels);
+		free(img);
+	}
 
 	return 0;
 	
