@@ -8,9 +8,9 @@
  */
 
 struct Pixel_t {
-	unsigned char r;
-	unsigned char g;
-	unsigned char b;
+	unsigned char red;
+	unsigned char green;
+	unsigned char blue;
 };
 
 typedef struct Pixel_t Pixel;

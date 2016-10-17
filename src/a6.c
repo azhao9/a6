@@ -21,8 +21,12 @@ int main () {
 	
 	FILE *out = fopen("test.ppm", "wb");
 	
-	Image* new = crop(img);
-	writeImage(out, new);
+	// Image* new = crop(img);
+	
+	//invert(img);
+	swap(img);
+	swap(img);
+	writeImage(out, img);
 	// close files
 	fclose(in);
 	fclose(out);

@@ -34,18 +34,18 @@ Image* readImage(FILE *fp) {
 		return 0;
 	}
 
-	// reads number of rows
-	fscanf(fp, "%s", rows);
+	// reads number of cols 
+	fscanf(fp, "%s", cols);
 	while (rows[0] == '#') {
 		while (fgetc(fp) != '\n');
-		fscanf(fp, "%s", rows);
+		fscanf(fp, "%s", cols);
 	}
 
-	// reads number of cols
-	fscanf(fp, "%s", cols);
+	// reads number of rows
+	fscanf(fp, "%s", rows);
 	while (cols[0] == '#') {
 		while (fgetc(fp) != '\n');
-		fscanf(fp, "%s", cols);
+		fscanf(fp, "%s", rows);
 	}
 
 	// reads color value
@@ -65,7 +65,7 @@ Image* readImage(FILE *fp) {
 
 	if (colors_2 != 255) {
 		// not regular image
-		fprintf(stderr, "not a regular image");
+		fprintf(stderr, "not a regular image\n");
 		return 0;
 	}
 
@@ -75,7 +75,7 @@ Image* readImage(FILE *fp) {
 
 	if (reads != r * c) {
 		// error writing file
-		fprintf(stderr, "not same number of elements");
+		fprintf(stderr, "not same number of elements\n");
 		return 0;
 	}
 
@@ -96,7 +96,7 @@ void writeImage(FILE *out, Image *im) {
 	int c = pic.cols;
 
 	fprintf(out, "P6\n");
-	fprintf(out, "%d %d ", r, c);
+	fprintf(out, "%d %d ", c, r);
 	fprintf(out, "255\n");
 
 	fwrite(pix, sizeof(Pixel), r * c, out);	

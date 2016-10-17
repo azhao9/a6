@@ -12,10 +12,10 @@
 Image* crop(Image *old);
 
 // inverts an image
-Image* invert(Image *old);
+void invert(Image *old);
 
 // swaps color channels of an image
-Image* swap(Image *old);
+void swap(Image *old);
 
 // converts an image to grayscale
 Image* grayscale(Image *old);

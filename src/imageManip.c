@@ -28,12 +28,30 @@ Image* crop(Image *old) {
 
 	if (x2 < x1 || y2 < y1) {
 		// not properly formatted input
-		fprintf(stderr, "improper order of coordinates");
+		fprintf(stderr, "improper order of coordinates\n");
 		return NULL;
 	}
 
 	Pixel *oldPix = (*old).pixels;
-	//int oldCols = (*old).cols;
+	int oldCols = (*old).cols;
+	int oldRows = (*old).rows;
+
+	if (x1 < 0 || x2 < 0 || y1 < 0 || y2 < 0) {
+		// can't be less than 0
+		fprintf(stderr, "Coordinates must be positive\n");
+		return NULL;
+	}
+
+	if (x1 > oldCols || x2 > oldCols || y1 > oldRows || y2 > oldRows) {
+		// can't be larger than size of picture
+		fprintf(stderr, "Can't be outside the picture\n");
+	}
+
+	if ((strcmp(a, "0") && !x1) || (strcmp(b, "0") && !y1) || 
+			(strcmp(c, "0") && !x2) || (strcmp(d, "0") && !y2)) {
+	       // invalid input
+	       fprintf(stderr, "Invalid input\n");
+	}	       
 
 	int newRows = (y2 - y1);
 	int newCols = (x2 - x1);
@@ -45,7 +63,7 @@ Image* crop(Image *old) {
 
 	for (int r = y1; r < y2; r++) {
 		for (int c = x1; c < x2; c++) {
-			int oldIndex = r * (*old).cols + c;
+			int oldIndex = r * oldCols + c;
 
 			newPix[newIndex] = oldPix[oldIndex];
 			newIndex++;
@@ -68,32 +86,64 @@ Image* crop(Image *old) {
 }
 
 // inverts an image
-Image* invert(Image *old) {
-	return NULL;
+void invert(Image *old) {
+	Pixel *pix = (*old).pixels;
+	int rows = (*old).rows;
+	int cols = (*old).cols;
+
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < cols; c++) {
+			int index = r * cols + c;
+			
+			// bitwise inverse
+			pix[index].red = ~pix[index].red;
+			pix[index].green = ~pix[index].green;
+			pix[index].blue = ~pix[index].blue;
+		}
+	}
+
 }
 
 // swaps color channels of an image
-Image* swap(Image *old) {
-	return NULL;
+void swap(Image *old) {	
+	Pixel *pix = (*old).pixels;
+	int rows = (*old).rows;
+	int cols = (*old).cols;
+
+	for (int r = 0; r < rows; r++) {
+		for (int c = 0; c < cols; c++) {
+			int index = r * cols + c;
+
+			unsigned char temp = pix[index].red;
+
+			pix[index].red = pix[index].green;
+			pix[index].green = pix[index].blue;
+			pix[index].blue = temp;
+		}
+	}
 }
 
 // converts an image to grayscale
 Image* grayscale(Image *old) {
+	old = NULL;
 	return NULL;
 }
 
 // changes the brightness of an image
 Image* brightness(Image *old) {
+	old = NULL;
 	return NULL;
 }
 
 // changes the contrast of an image
 Image* contrast(Image *old) {
+	old = NULL;
 	return NULL;
 }
 
 // blurs an image
 Image* blur(Image *old) {
+	old = NULL;
 	return NULL;
 }
 
