@@ -5,7 +5,7 @@ Assignment 6
 Aleck Zhao azhao9
 Noah Halpern nhalper1
 
-Program displays an interactive menu for the user, allows user to read, write, and manipulate images. Our implementation does not handle comments in the ppm file very elegantly, and might not be totally correct for all cases.
+Program displays an interactive menu for the user, allows user to read, write, and manipulate images. Our implementation does not handle comments in the ppm file very elegantly, and might not be totally correct for all cases. We don't handle user overflowing input (char arrays are predefined size, assume user doesn't intentionally mess everything up).
 
 a6.c: Runs the program. Keeps the current image stored.
 
