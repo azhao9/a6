@@ -131,10 +131,27 @@ void swap(Image *old) {
 
 // converts an image to grayscale
 void grayscale(Image *old) {
-	old = NULL;
-	if (old == NULL) {
-		printf("Feature not yet implemented\n");
-	}
+    Pixel *pix = (*old).pixels;
+    int rows= (*old).rows;
+    int cols = (*old).cols;
+
+    printf("Converting to grayscale...\n");
+    for (int r = 0; r < rows; r++) {
+        for (int c = 0; c < cols; c++) {
+            int index = r * cols + c;
+            unsigned char red = pix[index].red;
+            unsigned char green = pix[index].green;
+            unsigned char blue = pix[index].blue;
+
+            unsigned char gray = 0.30*red + 0.59*green + 0.11*blue;
+
+            pix[index].red = gray;
+            pix[index].green = gray;
+            pix[index].blue = gray;
+
+
+        }
+    }
 }
 
 // changes the brightness of an image
