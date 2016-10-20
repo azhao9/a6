@@ -154,17 +154,34 @@ void grayscale(Image *old) {
     }
 }
 
+// saturation helper function
+unsigned char sat(double num){
+
+    if(num>255){
+        num = 255;
+    }
+    else if(num<0){
+        num = 0;
+    }
+
+    return (unsigned char)num;
+
+}
+
+
 // changes the brightness of an image
 void brightness(Image *old) {
     char a[30];
 
     scanf("%s", a);
 
-    unsigned char adj = (unsigned char)(atoi(a));
+    int adj = atoi(a);
 
     Pixel *pix = (*old).pixels;
     int rows= (*old).rows;
     int cols = (*old).cols;
+
+    printf("Adjusting brightness by %s...\n", a);
 
     for (int r = 0; r < rows; r++){
         for (int c = 0; c < cols; c++){
@@ -178,12 +195,43 @@ void brightness(Image *old) {
 
 }
 
+unsigned char contrastHelper(unsigned char old, double adj){
+
+    double temp = ((double)old)/255 - 0.5;
+
+    temp *= adj;
+
+    temp = temp + 0.5;
+    temp = temp * 255;
+    return sat(temp);
+
+}
+
 // changes the contrast of an image
 void contrast(Image *old) {
-    old = NULL;
-    if (old == NULL) {
-        printf("Feature not yet implemented\n");
+    char a[30];
+
+    scanf("%s", a);
+
+    double adj = atof(a);
+
+    Pixel *pix = (*old).pixels;
+    int rows= (*old).rows;
+    int cols = (*old).cols;
+
+    printf("Adjusting contrast by %.2f...\n", adj);
+
+    for(int r = 0; r < rows; r++){
+        for(int c = 0; c < cols; c++){
+            int index = r * cols + c;
+            
+            pix[index].red = contrastHelper(pix[index].red, adj);
+            pix[index].green = contrastHelper(pix[index].green, adj);
+            pix[index].blue = contrastHelper(pix[index].blue, adj);
+        }
     }
+
+
 }
 
 // blurs an image
@@ -203,17 +251,4 @@ void sharpen(Image *old) {
 }
 
 
-// saturation helper function
-unsigned char sat(unsigned char num){
-
-    if(num>255){
-        num = 255;
-    }
-    else if(num<0){
-        num = 0;
-    }
-
-    return (unsigned char)num;
-
-}
 
