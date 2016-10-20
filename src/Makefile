@@ -30,7 +30,7 @@ $(shell mkdir -p $(BIN_DIR))
 
 
 $(BIN_DIR)/a6: $(OBJ_DIR)/a6.o $(OBJ_DIR)/menuUtil.o $(OBJ_DIR)/ppmIO.o $(OBJ_DIR)/imageManip.o
-	gcc -g -lm $(OBJ_DIR)/a6.o $(OBJ_DIR)/menuUtil.o $(OBJ_DIR)/ppmIO.o $(OBJ_DIR)/imageManip.o -o $(BIN_DIR)/a6
+	gcc -g $(OBJ_DIR)/a6.o $(OBJ_DIR)/menuUtil.o $(OBJ_DIR)/ppmIO.o $(OBJ_DIR)/imageManip.o -o $(BIN_DIR)/a6 -lm
 
 $(OBJ_DIR)/a6.o: a6.c 
 	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c a6.c -o $(OBJ_DIR)/a6.o
@@ -42,7 +42,7 @@ $(OBJ_DIR)/ppmIO.o: ppmIO.c $(INC_DIRS)/ppmIO.h $(INC_DIRS)/pixel_image.h
 	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c ppmIO.c -o $(OBJ_DIR)/ppmIO.o
 
 $(OBJ_DIR)/imageManip.o: imageManip.c $(INC_DIRS)/imageManip.h $(INC_DIRS)/pixel_image.h
-	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c imageManip.c -o $(OBJ_DIR)/imageManip.o
+	gcc -std=c99 -Wall -Wextra -pedantic -g -I../include/ -c imageManip.c -o $(OBJ_DIR)/imageManip.o -lm
 
 $(OBJ_DIR):
 

@@ -10,6 +10,7 @@
 #include "menuUtil.h"
 #include "ppmIO.h"
 #include "imageManip.h"
+#include <math.h>
 
 int main () {
 	display();
