@@ -9,25 +9,25 @@
 
 
 // crops an image
-Image* crop(void *old);
+Image* crop(Image *old);
 
 // inverts an image
-void invert(void *old);
+void invert(Image *old);
 
 // swaps color channels of an image
-void swap(void *old);
+void swap(Image *old);
 
 // converts an image to grayscale
-void grayscale(void *old);
+void grayscale(Image *old);
 
 // changes the brightness of an image
-void* brightness(void *old);
+void* brightness(Image *old);
 
 // changes the contrast of an image
-void* contrast(void *old);
+void* contrast(Image *old);
 
 // blurs an image
-void* blur(void *old);
+Image* blur(Image *old);
 
 // sharpens an image
-void* sharpen(void *old);
+void sharpen(Image *old);

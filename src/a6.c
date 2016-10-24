@@ -2,7 +2,7 @@
  *
  * Aleck Zhao azhao9
  * Noah Halpern nhalper1
- * 16 October, 2016
+ * 24 October, 2016
  *
  * Main for image manipulation.
  */
@@ -30,11 +30,11 @@ int main () {
 			if (toRead != NULL) {
 				printf("Reading from %s...\n", path);
 				img = readImage(toRead);
+				fclose(toRead);
 			} else {
 				printf("Couldn't open file %s...\n", path);
 			}
 
-			fclose(toRead);
 
 		} else if (option == 2) {
 			// write
@@ -47,11 +47,11 @@ int main () {
 			} else if (toWrite != NULL) {
 				printf("Writing to %s...\n", path);
 				writeImage(toWrite, img);
+				fclose(toWrite);
 			} else {
 				printf("Couldn't open file %s...\n", path);
 			}
 
-			fclose(toWrite);
 
 		} else if (option == 3) {
 			// crop
@@ -84,19 +84,46 @@ int main () {
 			}
 		} else if (option == 6) {
 			// grayscale
-			grayscale(img);
+			if (img == NULL) {
+				printf("Nothing read yet...\n");
+			} else {
+				grayscale(img);
+			}
 		} else if (option == 7) {
 			// blur
-			blur(img);
+			if (img == NULL) {
+				printf("Nothing read yet...\n");
+			} else {
+				Image* temp = blur(img);
+
+				if (temp) {
+					free(img->pixels);
+					free(img);
+
+					img = temp;
+				}
+			}
 		} else if (option == 8) {
 			// sharpen
-			sharpen(img);
+			if (img == NULL) {
+				printf("Nothing read yet...\n");
+			} else {
+				sharpen(img);
+			}
 		} else if (option == 9) {
 			// brighten 
-			brightness(img);
+			if (img == NULL) {
+				printf("Nothing read yet...\n");
+			} else {
+				brightness(img);
+			}
 		} else if (option == 10) {
 			// contrast
-			contrast(img);
+			if (img == NULL) {
+				printf("Nothing read yet...\n");
+			} else {
+				contrast(img);
+			}
 		}
 
 		display();

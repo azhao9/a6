@@ -2,7 +2,7 @@
  *
  * Aleck Zhao azhao9
  * Noah Halpern nhalper1
- * 16 October, 2016
+ * 24 October, 2016
  *
  * Functions to manipulate images.
  */
@@ -79,9 +79,9 @@ Image* crop(Image *old) {
 
 	Image* new = malloc(sizeof(Image));
 
-	(*new).pixels = newPix;
-	(*new).rows = newRows;
-	(*new).cols = newCols;
+	new->pixels = newPix;
+	new->rows = newRows;
+	new->cols = newCols;
 
 	// frees old image and pixels
 	free(oldPix);
@@ -241,26 +241,19 @@ void contrast(Image *old) {
 // generates a 2D symmetric Gaussian matrix 
 double* gauss(double sigma) {
 
-	double* mat = malloc(sizeof(double) * MATRIX_SIZE * MATRIX_SIZE);
-
 	int size = (int)(sigma * 10);
 	if (size % 2 == 0) {
 		size++;
 	}
 
+	double* mat = malloc(sizeof(double) * size * size);
+
 	int center = (size - 1) / 2;
 
-	// initialize everything to 0
-	for (int r = 0; r < MATRIX_SIZE; r++) {
-		for (int c = 0; c < MATRIX_SIZE; c++) {
-			mat[MATRIX_SIZE * r + c] = 0;
-		}
-	}
-
-	// fill only first size x size matrix with Gaussian values	
+	// fills matrix with Gaussian values
 	for (int r = 0; r < size; r++) {
 		for (int c = 0; c < size; c++) {
-			int index = MATRIX_SIZE * r + c;
+			int index = size * r + c;
 
 			int dx = c - center;
 			int dy = r - center;
@@ -274,45 +267,167 @@ double* gauss(double sigma) {
 
 }
 
+// helper function to overlay Gaussian matrix on a specific pixel
+Pixel* blurHelper(double* gmat, int size, int row, int col, Image* img) {
+	// sum of Gaussian entries
+	double gauss_sum = 0;
+
+	// sum of pixel values
+	double red_sum = 0;
+	double green_sum = 0;
+	double blue_sum = 0;
+
+	// center of Gaussian matrix
+	int center = (size - 1) / 2;
+	
+	for (int r = -center; r <= center; r++) {
+		for (int c = -center; c <= center; c++) {
+			// if within image boundaries
+			if (r + row >= 0 && r + row < img->rows && c + col >= 0 && c + col < img->cols) {
+				// Gaussian indices
+				int g_r = r + center;
+				int g_c = c + center;
+				int g_ind = g_r * size + g_c;
+
+				// image indices
+				int i_r = r + row;
+				int i_c = c + col;
+				int i_ind = i_r * img->cols + i_c;
+
+				// Gaussian value
+				double g_val = gmat[g_ind];
+
+				double red = (img->pixels)[i_ind].red * g_val;
+				double green = (img->pixels)[i_ind].green * g_val;
+				double blue = (img->pixels)[i_ind].blue * g_val;
+
+				// update sums
+				gauss_sum += g_val;
+				red_sum += red;
+				green_sum += green;
+				blue_sum += blue;
+			}
+		}
+	}
+
+	// computes weighted average
+	double new_red = red_sum / gauss_sum;
+	double new_green = green_sum / gauss_sum;
+	double new_blue = blue_sum / gauss_sum;
+
+	Pixel* new_pix = malloc(sizeof(Pixel));
+
+	new_pix->red = (unsigned char)new_red;
+	new_pix->green = (unsigned char)new_green;
+	new_pix->blue = (unsigned char)new_blue;
+
+	return new_pix;
+}
+
 // blurs an image
-void blur(Image *old) {
+Image* blur(Image *old) {
 
 	char a[30];
-
 	scanf("%s", a);
-
 	double sigma = atof(a);
-	Pixel *pix = (*old).pixels;
-	int rows= (*old).rows;
-	int cols = (*old).cols;
-
-
 	double* mat = gauss(sigma);
 
-	// calculates properties of Gaussian matrix for local use
+	// calculates size of Gaussian matrix for local use
 	int size = (int)(sigma * 10);
 	if (size % 2 == 0) {
 		size++;
 	}
 
-	int center = (size - 1)/2;
+	Image* new_img = malloc(sizeof(Image));
+	new_img->pixels = malloc(sizeof(Pixel) * old->rows * old->cols);
 
-	for (int r = 0; r < rows; r++) {
-		for (int c = 0; c < cols; c++) {
-			
+	printf("Applying blur filter, sigma %.2f...\n", sigma);
+	for (int r = 0; r < old->rows; r++) {
+		for (int c = 0; c < old->cols; c++) {
+			int index = r * old->cols + c;
+			Pixel* temp = blurHelper(mat, size, r, c, old);
+
+			(new_img->pixels)[index].red = temp->red;
+			(new_img->pixels)[index].green = temp->green;
+			(new_img->pixels)[index].blue = temp->blue;
+
+			free(temp);
 		}
 	}
+
+	new_img->rows = old->rows;
+	new_img->cols = old->cols;
+
+	free(mat);
+
+	return new_img;
 
 }
 
 
 // sharpens an image
 void sharpen(Image *old) {
-	old = NULL;
-	if (old == NULL) {
-		printf("Feature not yet implemented\n");
+
+	char a[30];
+	char b[30];
+
+	scanf("%s %s", a, b);
+
+	double sigma = atof(a);
+	double i = atof(b);
+
+	///////////////////////////////////////////////////////////////////////////
+	// blur function
+	///////////////////////////////////////////////////////////////////////////
+	double* mat = gauss(sigma);
+
+	// calculates size of Gaussian matrix for local use
+	int size = (int)(sigma * 10);
+	if (size % 2 == 0) {
+		size++;
 	}
+
+	Image* new_img = malloc(sizeof(Image));
+	new_img->pixels = malloc(sizeof(Pixel) * old->rows * old->cols);
+
+	for (int r = 0; r < old->rows; r++) {
+		for (int c = 0; c < old->cols; c++) {
+			int index = r * old->cols + c;
+			Pixel* temp = blurHelper(mat, size, r, c, old);
+
+			(new_img->pixels)[index].red = temp->red;
+			(new_img->pixels)[index].green = temp->green;
+			(new_img->pixels)[index].blue = temp->blue;
+
+			free(temp);
+		}
+	}
+
+	new_img->rows = old->rows;
+	new_img->cols = old->cols;
+
+	free(mat);
+	//////////////////////////////////////////////////////////////////////////
+	
+	Pixel* old_pix = old->pixels;
+	Pixel* new_pix = new_img->pixels;
+
+	printf("Applying sharpen filter, sigma %.2f, intensity %.2f...\n", sigma, i);
+	for (int r = 0; r < old->rows; r++) {
+		for (int c = 0; c < old->cols; c++) {
+			int index = r * old->cols + c;
+			int red_diff = old_pix[index].red - new_pix[index].red;
+			int green_diff = old_pix[index].green - new_pix[index].green;
+			int blue_diff = old_pix[index].blue - new_pix[index].blue;
+
+			old_pix[index].red = sat(old_pix[index].red + i * red_diff);
+			old_pix[index].green = sat(old_pix[index].green + i * green_diff);
+			old_pix[index].blue = sat(old_pix[index].blue + i * blue_diff);
+		}
+	}
+
+	free(new_img->pixels);
+	free(new_img);
+			
 }
-
-
 
